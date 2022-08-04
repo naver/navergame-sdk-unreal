@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- init section is always evaluated once per architecture -->
+    <init>
+        <log text="Adjust SDK Android init"/>
+
+        <!-- check if using Gradle -->
+        <setBoolFromProperty result="bGradle" ini="Engine" section="/Script/AndroidRuntimeSettings.AndroidRuntimeSettings" property="bEnableGradle" default="false"/>
+        <if condition="bGradle">
+            <true>
+                <log text="Gradle is Enabled"/>
+            </true>
+            <false>
+                <log text="Gradle is Disabled"/>
+            </false>
+        </if>
+        
+
+        <!-- get packaging for Adjust from ini and reset it if architecture not supported -->
+        <setBoolFromProperty result="bEnabled" ini="Engine" section="Adjust" property="bEnabled" default="true"/>
+        <setStringFromProperty result="ClientId" ini="Engine" section="Adjust" property="ClientId" default="0"/>
+        <dumpvars/>
+    </init>
+    <prebuildCopies>
+        <copyFile src="$S(PluginDir)/ThirdPartyFrameworks/Android/navergame-sdk-gradle-1.2.0.aar" dst="$S(BuildDir)/gradle/app/libs/navergame-sdk-gradle-1.2.0.aar" />
+    </prebuildCopies>
+    <proguardAdditions>
+        <insert>
+        -keep class com.navercorp.nng.android.sdk.NngNdkWrapper** { *; }
+        </insert>
+    </proguardAdditions>
+
+<baseBuildGradleAdditions>
+        <insert>
+            allprojects {
+                def mappings = [
+                'android.support.annotation': 'androidx.annotation',
+                'android.arch.lifecycle': 'androidx.lifecycle',
+                'android.support.v4.app.NotificationCompat': 'androidx.core.app.NotificationCompat',
+                'android.support.v4.app.ActivityCompat': 'androidx.core.app.ActivityCompat',
+                'android.support.v4.content.ContextCompat': 'androidx.core.content.ContextCompat',
+                'android.support.v13.app.FragmentCompat': 'androidx.legacy.app.FragmentCompat',
+                'android.arch.lifecycle.Lifecycle': 'androidx.lifecycle.Lifecycle',
+                'android.arch.lifecycle.LifecycleObserver': 'androidx.lifecycle.LifecycleObserver',
+                'android.arch.lifecycle.OnLifecycleEvent': 'androidx.lifecycle.OnLifecycleEvent',
+                'android.arch.lifecycle.ProcessLifecycleOwner': 'androidx.lifecycle.ProcessLifecycleOwner',
+                'android.support.v4.app.NotificationManagerCompat' : 'androidx.core.app.NotificationManagerCompat',
+                'android.support.v4.content.FileProvider' : 'androidx.core.content.FileProvider'
+                ]
+
+                beforeEvaluate { project ->
+                    project.rootProject.projectDir.traverse(type: groovy.io.FileType.FILES, nameFilter: ~/.*\.java$/) { f ->
+                        mappings.each { entry ->
+                            if (f.getText('UTF-8').contains(entry.key)) {
+                                println "Updating ${entry.key} to ${entry.value} in file ${f}"
+                                ant.replace(file: f, token: entry.key, value: entry.value)
+                            }
+                        }
+                    }
+                }
+            }
+        </insert>
+    </baseBuildGradleAdditions>
+    
+    <gradleProperties>
+        <insert>
+            android.useAndroidX=true
+            android.enableJetifier=true
+        </insert>
+    </gradleProperties>
+    <buildGradleAdditions>
+
+        <insert>
+            android {
+                compileOptions {
+                    sourceCompatibility 1.8
+                    targetCompatibility 1.8
+                }
+            }
+            
+        </insert>
+    </buildGradleAdditions>
+
+    <buildGradleAdditions>
+        <insert>
+            dependencies {
+
+            implementation files("libs/navergame-sdk-gradle-1.2.0.aar")            // Navergame SDK
+            implementation "com.naver.nid:naveridlogin-android-sdk:4.2.6"       //Naver Login SDK
+            implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.20"      // Kotlin
+            implementation "androidx.viewpager2:viewpager2:1.0.0"           // Viewpager2
+            implementation "com.github.bumptech.glide:glide:3.7.0"          // Glide
+            implementation "com.squareup.retrofit2:retrofit:2.9.0"          // Retrofit2
+            implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0" //SwipeRefreshLayout
+            implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+            }
+        </insert>
+    </buildGradleAdditions>
+
+</root>

@@ -44,3 +44,18 @@ FString UGLink::GetCountryCode()
 {
     return GetSharedSdk()->GetCountryCode();
 }
+
+void UGLink::SetCanWriteFeedByScreenshot(bool Enabled)
+{
+    GetSharedSdk()->SetCanWriteFeedByScreenshot(Enabled);
+}
+
+void UGLink::SetGameId(FString GameId)
+{
+    GetSharedSdk()->SetGameId(GameId);
+}
+
+void UGLink::ExecuteFeedWriting(int BoardId, FString Title, FString Text, FString ImageFilePath)
+{
+    GetSharedSdk()->StartFeedWriting(BoardId, Title, Text, ImageFilePath);
+}

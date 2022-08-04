@@ -15,13 +15,34 @@
 #include "IOSView.h"
 
 
+static void ListenNNGSDKOpenURL(UIApplication* application, NSURL* url, NSString* sourceApplication, id annotation)
+{
+    [NNGSDKManager.shared handleCallbackUrl:url];
+}
+
 FIOSNaverGLink::FIOSNaverGLink()
 {
+}
+
+FString FIOSNaverGLink::GetCountryCode() const
+{
+    return UTF8_TO_TCHAR(NaverGLinkCallbackObject.shared.countryCode);
 }
 
 void FIOSNaverGLink::Init(FString ClientId, FString ClientSecret, FString LoungeId) const
 {
     [NaverGLinkCallbackObject.shared setClientId:ClientId.GetNSString() clientSecret:ClientSecret.GetNSString() loungeId:LoungeId.GetNSString()];
+    FIOSCoreDelegates::OnOpenURL.AddStatic(&ListenNNGSDKOpenURL);
+}
+
+void FIOSNaverGLink::SetCanWriteFeedByScreenshot(bool Enabled) const
+{
+    [NaverGLinkCallbackObject.shared setCanWriteFeedByScreenshot:Enabled];
+}
+
+void FIOSNaverGLink::SetGameId(FString GameId) const
+{
+    [NaverGLinkCallbackObject.shared setGameId:GameId.GetNSString()];
 }
 
 void FIOSNaverGLink::StartHome() const
@@ -35,13 +56,6 @@ void FIOSNaverGLink::StartSorry() const
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [NaverGLinkCallbackObject.shared startSorry];
-    });
-}
-
-void FIOSNaverGLink::FinishSdk() const
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [NaverGLinkCallbackObject.shared finishSdk];
     });
 }
 
@@ -59,10 +73,18 @@ void FIOSNaverGLink::StartFeed(int FeedId, bool IsTempFeedId) const
     });
 }
 
-
-FString FIOSNaverGLink::GetCountryCode() const
+void FIOSNaverGLink::StartFeedWriting(int BoardId, FString Title, FString Text, FString ImageFilePath) const
 {
-    return UTF8_TO_TCHAR(NaverGLinkCallbackObject.shared.countryCode);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NaverGLinkCallbackObject.shared startFeedWritingWithBoardId:@(BoardId) title:Title.GetNSString() text:Text.GetNSString() imageFilePath:ImageFilePath.GetNSString()];
+    });
+}
+
+void FIOSNaverGLink::FinishSdk() const
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NaverGLinkCallbackObject.shared finishSdk];
+    });
 }
 
 
@@ -82,6 +104,11 @@ FString FIOSNaverGLink::GetCountryCode() const
 }
 
 
+- (NSString *)countryCode {
+    return NNGSDKManager.shared.countryCode;
+}
+
+
 - (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret loungeId:(NSString *)loungeId {
     [NNGSDKManager.shared setClientId:clientId clientSecret:clientSecret loungeId:loungeId];
 }
@@ -90,6 +117,16 @@ FString FIOSNaverGLink::GetCountryCode() const
 - (void)setParentViewController {
     [NNGSDKManager.shared setParentViewController:[IOSAppDelegate GetDelegate].IOSController];
     NNGSDKManager.shared.delegate = self;
+}
+
+
+- (void)setCanWriteFeedByScreenshot:(BOOL)enabled {
+    NNGSDKManager.shared.canWriteFeedByScreenshot = enabled;
+}
+
+
+- (void)setGameId:(NSString *)gameId {
+    [NNGSDKManager.shared registerMemberGameId:gameId];
 }
 
 
@@ -103,11 +140,6 @@ FString FIOSNaverGLink::GetCountryCode() const
 }
 
 
-- (void)finishSdk {
-    [NNGSDKManager.shared dismiss];
-}
-
-
 - (void)startBoardWithBoardId:(NSNumber *)boardId {
     [NNGSDKManager.shared presentBoardViewControllerWith:boardId];
 }
@@ -118,8 +150,13 @@ FString FIOSNaverGLink::GetCountryCode() const
 }
 
 
-- (NSString *)countryCode {
-    return NNGSDKManager.shared.countryCode;
+- (void)startFeedWritingWithBoardId:(NSNumber *)boardId title:(NSString *)title text:(NSString *)text imageFilePath:(NSString *)imageFilePath {
+    [NNGSDKManager.shared presentFeedWritingWithBoardId:boardId title:title text:text imageFilePath:imageFilePath];
+}
+
+
+- (void)finishSdk {
+    [NNGSDKManager.shared dismiss];
 }
 
 

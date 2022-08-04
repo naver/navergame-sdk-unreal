@@ -16,6 +16,11 @@ FAndroidNaverGLink::FAndroidNaverGLink()
 		Method_StartBoard = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "startBoard", "(Landroid/app/Activity;I)V", false);
 	    Method_StartFeed = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "startFeed", "(Landroid/app/Activity;IZ)V", false);
 	    Method_GetCountryCode = FJavaWrapper::FindStaticMethod(Env, localGlinkClass,"getCountryCode", "(Landroid/app/Activity;)Ljava/lang/String;", false);
+
+		Method_SetCanWriteFeedByScreenshot = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "setEnableScreenShot", "(Z)V", false);
+		Method_StartFeedWriting = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "writeFeed", "(Landroid/app/Activity;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false);
+		Method_SetGameId = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "setGameId", "(Landroid/app/Activity;Ljava/lang/String;)V", false);
+
 		Env->DeleteLocalRef(localGlinkClass);
 	}
 }
@@ -61,6 +66,58 @@ void FAndroidNaverGLink::Init(FString ClientId, FString ClientSecret, FString Lo
 	}
 
 }
+
+
+
+
+void FAndroidNaverGLink::SetGameId(FString GameId) const {
+    if (JNIEnv * Env = FAndroidApplication::GetJavaEnv())
+	{
+	    jclass localGlinkClass = FAndroidApplication::FindJavaClass("com.navercorp.nng.android.sdk.NngNdkWrapper"); 
+
+		jstring gameId = Env->NewStringUTF(TCHAR_TO_UTF8(*GameId));
+
+	    Env->CallStaticVoidMethod(localGlinkClass, Method_SetGameId, FJavaWrapper::GameActivityThis,gameId);
+
+
+		Env->DeleteLocalRef(gameId);
+		Env->DeleteLocalRef(localGlinkClass);
+	}
+	
+}
+
+void FAndroidNaverGLink::SetCanWriteFeedByScreenshot(bool Enabled) const {
+    if (JNIEnv * Env = FAndroidApplication::GetJavaEnv())
+	{
+	    jclass localGlinkClass = FAndroidApplication::FindJavaClass("com.navercorp.nng.android.sdk.NngNdkWrapper"); 
+	    Env->CallStaticVoidMethod(localGlinkClass, Method_SetCanWriteFeedByScreenshot, Enabled);
+	    Env->DeleteLocalRef(localGlinkClass);
+	}
+	
+}
+
+void FAndroidNaverGLink::StartFeedWriting(int BoardId, FString Title, FString Text, FString ImageFilePath) const {
+    if (JNIEnv * Env = FAndroidApplication::GetJavaEnv())
+	{
+	    jclass localGlinkClass = FAndroidApplication::FindJavaClass("com.navercorp.nng.android.sdk.NngNdkWrapper"); 
+
+	    jstring TitleJava = Env->NewStringUTF(TCHAR_TO_UTF8(*Title));
+        jstring TextJava = Env->NewStringUTF(TCHAR_TO_UTF8(*Text));
+        jstring ImagePathJava = Env->NewStringUTF(TCHAR_TO_UTF8(*ImageFilePath));
+
+	    Env->CallStaticVoidMethod(localGlinkClass, Method_StartFeedWriting, FJavaWrapper::GameActivityThis,BoardId,TitleJava,TextJava,ImagePathJava);
+	    
+
+		Env->DeleteLocalRef(TitleJava);
+        Env->DeleteLocalRef(TextJava);
+        Env->DeleteLocalRef(ImagePathJava);
+
+		Env->DeleteLocalRef(localGlinkClass);
+
+	}
+	
+}
+
 
 void FAndroidNaverGLink::StartHome() const {
     if (JNIEnv * Env = FAndroidApplication::GetJavaEnv())

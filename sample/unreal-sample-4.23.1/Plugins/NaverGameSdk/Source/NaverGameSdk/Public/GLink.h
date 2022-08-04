@@ -34,5 +34,14 @@ class NAVERGAMESDK_API UGLink : public UBlueprintFunctionLibrary
     
     UFUNCTION(BlueprintCallable, Category = "Naver GameSdk")
     static FString GetCountryCode();
+    
+    UFUNCTION(BlueprintCallable, Category = "Naver GameSdk")
+    static void SetCanWriteFeedByScreenshot(bool Enabled);
+    
+    UFUNCTION(BlueprintCallable, Category = "Naver GameSdk")
+    static void SetGameId(FString GameId);
+    
+    UFUNCTION(BlueprintCallable, Category = "Naver GameSdk")
+    static void ExecuteFeedWriting(int BoardId, FString Title, FString Text, FString ImageFilePath);
 
 };

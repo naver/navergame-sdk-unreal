@@ -7,7 +7,7 @@ public class NaverGameSdk : ModuleRules
 	
 	private string ThirdPartyPath
 	{
-		get { return Path.GetFullPath(Path.Combine(ModuleDirectory, "../../ThirdPartyFrameworks/")); }
+		get { return Path.GetFullPath(Path.Combine(ModuleDirectory, "./ThirdPartyFrameworks/")); }
 	}
 
 	public NaverGameSdk(ReadOnlyTargetRules Target) : base(Target)
@@ -73,7 +73,15 @@ public class NaverGameSdk : ModuleRules
 				)
 			);
 
+			PublicAdditionalFrameworks.Add(
+                new Framework(
+					"NaverLogin",
+					"./ThirdPartyFrameworks/iOS/NaverLogin.embeddedframework.zip"
+                )
+            );
+
 			bEnableObjCExceptions = false;
+			
 			PublicFrameworks.AddRange(
 				new string[]
 				{
