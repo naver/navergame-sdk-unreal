@@ -59,3 +59,8 @@ void UGLink::ExecuteFeedWriting(int BoardId, FString Title, FString Text, FStrin
 {
     GetSharedSdk()->StartFeedWriting(BoardId, Title, Text, ImageFilePath);
 }
+
+void UGLink::NaverLogout()
+{
+    GetSharedSdk()->NaverLogout();
+}

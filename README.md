@@ -19,8 +19,8 @@ Naver Game SDK는 모바일 게임 사용자가 게임을 벗어나지 않고 **
 
 ### 적용 가이드
 
-- [SDK 적용 가이드](https://navergame.gitbook.io/naver-game/integration-guide/unreal)
-
+- [SDK 적용 가이드](https://navergame.gitbook.io/naver-game/integration-guide/unity)
+- [최신 버전 및 샘플 프로젝트 다운로드](https://github.com/naver/navergame-sdk-unity/archive/master.zip)
 
 &nbsp;
 &nbsp;
@@ -41,7 +41,7 @@ Naver Game SDK는 모바일 게임 사용자가 게임을 벗어나지 않고 **
 Naver Game SDK의 저작권은 네이버(주)에 있습니다.
 
 ```
-NAVER Game SDK Unreal Engine
+NAVER Game SDK Unity
 Copyright 2021-present NAVER Corp.
 
 Unauthorized use, modification and redistribution of this software are strongly prohibited.

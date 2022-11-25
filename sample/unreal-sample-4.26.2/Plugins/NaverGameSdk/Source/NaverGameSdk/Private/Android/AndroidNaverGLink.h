@@ -19,7 +19,7 @@ class FAndroidNaverGLink : public INaverGLink
 	jmethodID Method_SetCanWriteFeedByScreenshot;
 	jmethodID Method_StartFeedWriting;
 	jmethodID Method_SetGameId;
-
+	jmethodID Method_NaverLogout;
 
  
 public:
@@ -37,6 +37,6 @@ public:
     void StartFeedWriting(int BoardId, FString Title, FString Text, FString ImageFilePath) const;
     
     void FinishSdk() const;
-
+	void NaverLogout() const;
 
 };

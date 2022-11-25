@@ -22,7 +22,7 @@ public:
     virtual void SetCanWriteFeedByScreenshot(bool Enabled) const = 0;
     virtual void SetGameId(FString GameId) const = 0;
     virtual void StartFeedWriting(int BoardId, FString Title, FString Text, FString ImageFilePath) const = 0;
-    
+    virtual void NaverLogout() const = 0;
 };
 
 INaverGLink* GetSharedSdk();

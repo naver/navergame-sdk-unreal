@@ -43,5 +43,8 @@ class NAVERGAMESDK_API UGLink : public UBlueprintFunctionLibrary
     
     UFUNCTION(BlueprintCallable, Category = "Naver GameSdk")
     static void ExecuteFeedWriting(int BoardId, FString Title, FString Text, FString ImageFilePath);
+    
+    UFUNCTION(BlueprintCallable, Category = "Naver GameSdk")
+    static void NaverLogout();
 
 };

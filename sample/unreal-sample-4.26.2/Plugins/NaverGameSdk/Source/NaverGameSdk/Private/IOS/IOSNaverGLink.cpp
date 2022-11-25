@@ -87,6 +87,12 @@ void FIOSNaverGLink::FinishSdk() const
     });
 }
 
+void FIOSNaverGLink::NaverLogout() const
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NaverGLinkCallbackObject.shared naverLogout];
+    });
+}
 
 @implementation NaverGLinkCallbackObject
 
@@ -157,6 +163,10 @@ void FIOSNaverGLink::FinishSdk() const
 
 - (void)finishSdk {
     [NNGSDKManager.shared dismiss];
+}
+
+- (void)naverLogout {
+    [NNGSDKManager.shared logout];
 }
 
 

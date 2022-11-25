@@ -37,6 +37,7 @@ public:
     
     void FinishSdk() const;
     
+    void NaverLogout() const;
 };
 
 
@@ -61,5 +62,7 @@ public:
 - (void)startFeedWritingWithBoardId:(NSNumber *)boardId title:(NSString *)title text:(NSString *)text imageFilePath:(NSString *)imageFilePath;
 
 - (void)finishSdk;
+
+- (void)naverLogout;
 
 @end

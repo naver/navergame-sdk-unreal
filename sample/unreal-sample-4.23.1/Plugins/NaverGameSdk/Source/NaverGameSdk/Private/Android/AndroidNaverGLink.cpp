@@ -19,8 +19,10 @@ FAndroidNaverGLink::FAndroidNaverGLink()
 
 		Method_SetCanWriteFeedByScreenshot = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "setEnableScreenShot", "(Z)V", false);
 		Method_StartFeedWriting = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "writeFeed", "(Landroid/app/Activity;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false);
-		Method_SetGameId = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "setGameId", "(Landroid/app/Activity;Ljava/lang/String;)V", false);
+		Method_SetGameId = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "putGameId", "(Landroid/app/Activity;Ljava/lang/String;)V", false);
 
+		Method_NaverLogout = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "logout", "(Landroid/app/Activity;)V", false);
+		
 		Env->DeleteLocalRef(localGlinkClass);
 	}
 }
@@ -165,6 +167,15 @@ void FAndroidNaverGLink::FinishSdk() const {
 	}
 	
 }
+void FAndroidNaverGLink::NaverLogout() const {
+	if (JNIEnv * Env = FAndroidApplication::GetJavaEnv())
+	{
+		jclass localGlinkClass = FAndroidApplication::FindJavaClass("com.navercorp.nng.android.sdk.NngNdkWrapper"); 
+		Env->CallStaticVoidMethod(localGlinkClass, Method_NaverLogout, FJavaWrapper::GameActivityThis);
+		Env->DeleteLocalRef(localGlinkClass);
+	}
+	
+}
 
 extern "C" void Java_com_navercorp_nng_android_sdk_NngNdkWrapper_nngSdkLoaded(JNIEnv *env, jobject thisObj) {
    FNaverGameSdkModule::OnSdkStarted.Broadcast();
@@ -183,4 +194,3 @@ extern "C" void Java_com_navercorp_nng_android_sdk_NngNdkWrapper_nngSdkCallInGam
 
     env->ReleaseStringUTFChars(inGameMenuCode, AppInGameMenuCodeChars);
 }
-
