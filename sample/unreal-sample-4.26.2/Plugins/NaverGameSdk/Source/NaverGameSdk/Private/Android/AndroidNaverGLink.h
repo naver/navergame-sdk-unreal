@@ -36,6 +36,11 @@ public:
     void StartFeed(int FeedId, bool IsTempFeedId) const;
     void StartFeedWriting(int BoardId, FString Title, FString Text, FString ImageFilePath) const;
     
+    void SetAppName(FString AppName) const;
+    void SetAppScheme(FString AppScheme) const;
+    FString GetAuthSettingDescription() const;
+        
+    
     void FinishSdk() const;
 	void NaverLogout() const;
 

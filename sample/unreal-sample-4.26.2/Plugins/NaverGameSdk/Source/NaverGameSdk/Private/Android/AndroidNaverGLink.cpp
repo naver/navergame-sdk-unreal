@@ -177,6 +177,17 @@ void FAndroidNaverGLink::NaverLogout() const {
 	
 }
 
+void FAndroidNaverGLink::SetAppName(FString AppName) const {
+    //DO NOTHING
+}
+void FAndroidNaverGLink::SetAppScheme(FString AppName) const {
+    //DO NOTHING
+}
+FString FAndroidNaverGLink::GetAuthSettingDescription() const {
+    //DO NOTHING
+    return "";
+}
+
 extern "C" void Java_com_navercorp_nng_android_sdk_NngNdkWrapper_nngSdkLoaded(JNIEnv *env, jobject thisObj) {
    FNaverGameSdkModule::OnSdkStarted.Broadcast();
    return;

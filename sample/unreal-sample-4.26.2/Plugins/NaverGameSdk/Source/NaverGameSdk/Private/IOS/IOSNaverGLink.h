@@ -26,6 +26,10 @@ public:
     void SetCanWriteFeedByScreenshot(bool Enabled) const;
     void SetGameId(FString GameId) const;
     
+    void SetAppName(FString AppName) const;
+    void SetAppScheme(FString AppScheme) const;
+    FString GetAuthSettingDescription() const;
+    
     void StartHome() const;
     void StartSorry() const;
     
@@ -47,10 +51,15 @@ public:
 
 @property (nonatomic, readonly) NSString *countryCode;
 
+@property (nonatomic, readonly) NSString *authSettingDescription;
+
 
 - (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret loungeId:(NSString *)loungeId;
 - (void)setCanWriteFeedByScreenshot:(BOOL)enabled;
 - (void)setGameId:(NSString *)gameId;
+
+- (void)setAppName:(NSString *)appName;
+- (void)setAppScheme:(NSString *)appScheme;
 
 - (void)startHome;
 - (void)startSorry;

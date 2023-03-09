@@ -45,6 +45,21 @@ void FIOSNaverGLink::SetGameId(FString GameId) const
     [NaverGLinkCallbackObject.shared setGameId:GameId.GetNSString()];
 }
 
+void SetAppName(FString AppName) const
+{
+    [NaverGLinkCallbackObject.shared SetAppName:AppName.GetNSString()];
+}
+
+void SetAppScheme(FString AppScheme) const
+{
+    [NaverGLinkCallbackObject.shared SetAppScheme:AppScheme.GetNSString()];
+}
+
+FString FIOSNaverGLink::GetAuthSettingDescription() const
+{
+    return UTF8_TO_TCHAR(NaverGLinkCallbackObject.shared.authSettingDescription);
+}
+
 void FIOSNaverGLink::StartHome() const
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -115,6 +130,11 @@ void FIOSNaverGLink::NaverLogout() const
 }
 
 
+- (NSString *)authSettingDescription {
+    return NNGSDKManager.shared.authSettingDescription;
+}
+
+
 - (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret loungeId:(NSString *)loungeId {
     [NNGSDKManager.shared setClientId:clientId clientSecret:clientSecret loungeId:loungeId];
 }
@@ -133,6 +153,16 @@ void FIOSNaverGLink::NaverLogout() const
 
 - (void)setGameId:(NSString *)gameId {
     [NNGSDKManager.shared registerMemberGameId:gameId];
+}
+
+
+- (void)setAppName:(NSString *)appName {
+    [NNGSDKManager.shared setAppName:appName];
+}
+
+
+- (void)setAppScheme:(NSString *)appScheme {
+    [NNGSDKManager.shared setAppScheme:appScheme];
 }
 
 
@@ -165,10 +195,10 @@ void FIOSNaverGLink::NaverLogout() const
     [NNGSDKManager.shared dismiss];
 }
 
-
 - (void)naverLogout {
     [NNGSDKManager.shared logout];
 }
+
 
 #pragma mark - NCSDKDelegate
 

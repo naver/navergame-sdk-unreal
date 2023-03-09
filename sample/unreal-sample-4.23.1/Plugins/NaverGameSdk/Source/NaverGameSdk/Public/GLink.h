@@ -42,8 +42,17 @@ class NAVERGAMESDK_API UGLink : public UBlueprintFunctionLibrary
     static void SetGameId(FString GameId);
     
     UFUNCTION(BlueprintCallable, Category = "Naver GameSdk")
+    static void SetAppName(FString AppName);
+    
+    UFUNCTION(BlueprintCallable, Category = "Naver GameSdk")
+    static void SetAppScheme(FString AppScheme);
+    
+    UFUNCTION(BlueprintCallable, Category = "Naver GameSdk")
+    static FString GetAuthSettingDescription();
+    
+    UFUNCTION(BlueprintCallable, Category = "Naver GameSdk")
     static void ExecuteFeedWriting(int BoardId, FString Title, FString Text, FString ImageFilePath);
-
+    
     UFUNCTION(BlueprintCallable, Category = "Naver GameSdk")
     static void NaverLogout();
 

@@ -55,6 +55,21 @@ void UGLink::SetGameId(FString GameId)
     GetSharedSdk()->SetGameId(GameId);
 }
 
+void UGLink::SetAppName(FString AppName)
+{
+    GetSharedSdk()->SetAppName(AppName);
+}
+
+void UGLink::SetAppScheme(FString AppScheme)
+{
+    GetSharedSdk()->SetAppScheme(AppScheme);
+}
+
+FString UGLink::GetAuthSettingDescription()
+{
+    return GetSharedSdk()->GetAuthSettingDescription();
+}
+
 void UGLink::ExecuteFeedWriting(int BoardId, FString Title, FString Text, FString ImageFilePath)
 {
     GetSharedSdk()->StartFeedWriting(BoardId, Title, Text, ImageFilePath);
