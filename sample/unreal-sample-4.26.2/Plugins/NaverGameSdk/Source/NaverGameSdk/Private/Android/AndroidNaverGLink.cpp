@@ -19,7 +19,7 @@ FAndroidNaverGLink::FAndroidNaverGLink()
 
 		Method_SetCanWriteFeedByScreenshot = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "setEnableScreenShot", "(Z)V", false);
 		Method_StartFeedWriting = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "writeFeed", "(Landroid/app/Activity;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false);
-		Method_SetGameId = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "putGameId", "(Landroid/app/Activity;Ljava/lang/String;)V", false);
+		Method_SetGameId = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "setGameId", "(Landroid/app/Activity;Ljava/lang/String;)V", false);
 
 		Method_NaverLogout = FJavaWrapper::FindStaticMethod(Env, localGlinkClass, "logout", "(Landroid/app/Activity;)V", false);
 		
