@@ -75,8 +75,8 @@ public class NaverGameSdk : ModuleRules
 
 			PublicAdditionalFrameworks.Add(
                 new Framework(
-					"NaverLogin",
-					"./ThirdPartyFrameworks/iOS/NaverLogin.embeddedframework.zip"
+					"NaverThirdPartyLogin",
+					"./ThirdPartyFrameworks/iOS/NaverThirdPartyLogin.embeddedframework.zip"
                 )
             );
 

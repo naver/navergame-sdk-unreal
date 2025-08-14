@@ -45,14 +45,14 @@ void FIOSNaverGLink::SetGameId(FString GameId) const
     [NaverGLinkCallbackObject.shared setGameId:GameId.GetNSString()];
 }
 
-void SetAppName(FString AppName) const
+void FIOSNaverGLink::SetAppName(FString AppName) const
 {
-    [NaverGLinkCallbackObject.shared SetAppName:AppName.GetNSString()];
+    [NaverGLinkCallbackObject.shared setAppName:AppName.GetNSString()];
 }
 
-void SetAppScheme(FString AppScheme) const
+void FIOSNaverGLink::SetAppScheme(FString AppScheme) const
 {
-    [NaverGLinkCallbackObject.shared SetAppScheme:AppScheme.GetNSString()];
+    [NaverGLinkCallbackObject.shared setAppScheme:AppScheme.GetNSString()];
 }
 
 FString FIOSNaverGLink::GetAuthSettingDescription() const
