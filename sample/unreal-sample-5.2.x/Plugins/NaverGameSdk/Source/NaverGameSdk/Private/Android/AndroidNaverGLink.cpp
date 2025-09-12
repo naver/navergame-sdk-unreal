@@ -188,15 +188,15 @@ FString FAndroidNaverGLink::GetAuthSettingDescription() const {
     return "";
 }
 
-extern "C" void Java_com_navercorp_nng_android_sdk_NngNdkWrapper_nngSdkLoaded(JNIEnv *env, jobject thisObj) {
+extern "C" JNIEXPORT void JNICALL Java_com_navercorp_nng_android_sdk_NngNdkWrapper_nngSdkLoaded(JNIEnv *env, jclass clazz) {
    FNaverGameSdkModule::OnSdkStarted.Broadcast();
    return;
 }
-extern "C" void Java_com_navercorp_nng_android_sdk_NngNdkWrapper_nngSdkUnLoaded(JNIEnv *env, jobject thisObj) {
+extern "C" JNIEXPORT void JNICALL Java_com_navercorp_nng_android_sdk_NngNdkWrapper_nngSdkUnLoaded(JNIEnv *env, jclass clazz) {
     FNaverGameSdkModule::OnSdkStopped.Broadcast();
    return;
 }
-extern "C" void Java_com_navercorp_nng_android_sdk_NngNdkWrapper_nngSdkCallInGameMenuCode(JNIEnv *env, jobject thisObj, jstring inGameMenuCode)
+extern "C" JNIEXPORT void JNICALL Java_com_navercorp_nng_android_sdk_NngNdkWrapper_nngSdkCallInGameMenuCode(JNIEnv *env, jclass clazz, jstring inGameMenuCode)
 {
     const char* AppInGameMenuCodeChars = env->GetStringUTFChars(inGameMenuCode, 0);   
     
